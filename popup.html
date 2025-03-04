@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>LV 제품 데이터 수집기</title>
+  <style>
+    body {
+      width: 300px;
+      font-family: Arial, sans-serif;
+      padding: 15px;
+    }
+    h1 {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #productCount {
+      margin-bottom: 15px;
+    }
+    .instructions {
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: #f8f8f8;
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    #clearData {
+      background-color: #f44336;
+    }
+    #clearData:hover {
+      background-color: #d32f2f;
+    }
+    #productList {
+      max-height: 150px;
+      overflow-y: auto;
+      margin: 10px 0;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>LV 제품 데이터 수집기</h1>
+  
+  <div class="instructions">
+    <strong>사용 방법:</strong><br>
+    1. 루이비통 제품 페이지에서<br>
+    2. 아래 버튼을 클릭하면 데이터 수집이 시작됩니다.
+  </div>
+  
+  <button id="collectData">현재 페이지 데이터 수집</button>
+  <div id="productCount">저장된 제품: 확인 중...</div>
+  
+  <div id="productList">
+    <!-- 여기에 저장된 제품 목록이 표시됩니다 -->
+  </div>
+  
+  <button id="exportExcel">수집된 데이터 내보내기</button>
+  <button id="clearData">저장된 데이터 삭제</button>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
