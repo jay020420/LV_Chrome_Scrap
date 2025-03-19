@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>루이비통 상품 상태 변경 기록</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #333;
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 10px;
+    }
+    .filter-container {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    select, input {
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .product-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .product-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+    .status-history {
+      margin-top: 10px;
+    }
+    .status-entry {
+      padding: 5px 0;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #eee;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      color: white;
+    }
+    .status-active {
+      background-color: #4CAF50;
+    }
+    .status-out-of-stock {
+      background-color: #FF9800;
+    }
+    .status-removed {
+      background-color: #F44336;
+    }
+    .status-unknown {
+      background-color: #9E9E9E;
+    }
+    .date {
+      font-size: 12px;
+      color: #666;
+    }
+    .product-meta {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #666;
+    }
+    .product-link {
+      color: #2196F3;
+      text-decoration: none;
+      display: block;
+      margin-top: 5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .product-link:hover {
+      text-decoration: underline;
+    }
+    .product-price {
+      font-weight: bold;
+      color: #333;
+    }
+    .no-products {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 30px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+    }
+    .status-arrow {
+      margin: 0 5px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <h1>루이비통 상품 상태 변경 기록</h1>
+  
+  <div class="filter-container">
+    <label for="statusFilter">상태 필터:</label>
+    <select id="statusFilter">
+      <option value="all">모든 상태</option>
+      <option value="active">정상 판매</option>
+      <option value="out_of_stock">품절</option>
+      <option value="removed">삭제됨</option>
+    </select>
+    
+    <label for="periodDays">기간 (일):</label>
+    <input type="number" id="periodDays" value="30" min="1" max="365">
+    
+    <button id="applyFilter">필터 적용</button>
+    <button id="exportData">데이터 내보내기</button>
+  </div>
+  
+  <div id="productGrid" class="product-grid">
+    <!-- 제품 카드가 여기에 동적으로 추가됩니다 -->
+    <div class="no-products">로딩 중...</div>
+  </div>
+  
+  <script src="status-history.js"></script>
+</body>
+</html>

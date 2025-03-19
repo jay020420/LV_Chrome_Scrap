@@ -1,31 +1,32 @@
 {
-    "manifest_version": 3,
-    "name": "루이비통 제품 데이터 수집기",
-    "version": "1.0",
-    "description": "루이비통 웹사이트에서 제품 정보를 추출하고 이미지를 다운로드합니다.",
-    "permissions": [
-      "activeTab",
-      "scripting",
-      "storage",
-      "downloads"
-    ],
-    "host_permissions": [
-      "https://*.louisvuitton.com/*"
-    ],
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "icons/icon16.png",
-        "48": "icons/icon48.png",
-        "128": "icons/icon128.png"
-      }
-    },
-    "background": {
-      "service_worker": "background.js"
-    },
-    "icons": {
+  "manifest_version": 3,
+  "name": "루이비통 품절 상품 탐색기",
+  "version": "1.1",
+  "description": "루이비통 웹사이트에서 품절된 상품 정보를 수집합니다.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "downloads",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "https://*.louisvuitton.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
+}

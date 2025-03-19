@@ -5,7 +5,7 @@
   <title>LV 제품 데이터 수집기</title>
   <style>
     body {
-      width: 300px;
+      width: 350px;
       font-family: Arial, sans-serif;
       padding: 15px;
     }
@@ -55,26 +55,333 @@
       border-radius: 4px;
       padding: 5px;
     }
+    .tab-container {
+      margin-top: 15px;
+    }
+    .tab {
+      overflow: hidden;
+      background-color: #f1f1f1;
+      border-radius: 4px 4px 0 0;
+    }
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 10px 16px;
+      transition: 0.3s;
+      width: 50%;
+      color: #333;
+    }
+    .tab button:hover {
+      background-color: #ddd;
+    }
+    .tab button.active {
+      background-color: #45a049;
+      color: white;
+    }
+    .tabcontent {
+      display: none;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+    }
+    .settings-container {
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input[type="text"], 
+    input[type="number"] {
+      width: 100%;
+      padding: 5px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .status-indicator {
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #FFF9C4;
+      border-radius: 4px;
+      display: none;
+    }
+    
+    /* 토글 스위치 스타일 */
+    .switch-container {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      margin: 0 10px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #4CAF50;
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    .slider.round {
+      border-radius: 24px;
+    }
+    .slider.round:before {
+      border-radius: 50%;
+    }
+    #toggleStatus, #trackingStatus {
+      font-size: 13px;
+      min-width: 32px;
+    }
+    
+    .product-list {
+      max-height: 300px;
+      overflow-y: auto;
+      margin: 10px 0;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      padding: 5px;
+    }
+    
+    .product-item {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .product-item-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3px;
+    }
+    
+    .product-item-title {
+      font-weight: bold;
+    }
+    
+    .product-item-status {
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      background-color: #f1f1f1;
+    }
+    
+    .status-removed {
+      background-color: #ffebee;
+      color: #d32f2f;
+    }
+    
+    .status-out-of-stock {
+      background-color: #fff8e1;
+      color: #ff8f00;
+    }
+    
+    .status-changed {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+    
+    .product-item-date {
+      font-size: 11px;
+      color: #666;
+    }
+    
+    .product-item-link {
+      font-size: 11px;
+      color: #1976d2;
+      margin-top: 3px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
   <h1>LV 제품 데이터 수집기</h1>
   
-  <div class="instructions">
-    <strong>사용 방법:</strong><br>
-    1. 루이비통 제품 페이지에서<br>
-    2. 아래 버튼을 클릭하면 데이터 수집이 시작됩니다.
+  <div class="tab">
+    <button class="tablinks active" data-tab="Product">제품 정보</button>
+    <button class="tablinks" data-tab="OutOfStock">품절 상품</button>
+    <button class="tablinks" data-tab="URLChecker">URL 확인기</button>
+    <button class="tablinks" data-tab="Removed">삭제된 상품</button>
   </div>
   
-  <button id="collectData">현재 페이지 데이터 수집</button>
-  <div id="productCount">저장된 제품: 확인 중...</div>
-  
-  <div id="productList">
-    <!-- 여기에 저장된 제품 목록이 표시됩니다 -->
+  <div id="Product" class="tabcontent" style="display: block;">
+    <div class="instructions">
+      <strong>사용 방법:</strong><br>
+      1. 루이비통 제품 페이지에서<br>
+      2. 아래 버튼을 클릭하면 데이터 수집이 시작됩니다.
+    </div>
+    
+    <div class="settings-container">
+      <label class="switch-container">
+        <span>이미지 다운로드:</span>
+        <label class="switch">
+          <input type="checkbox" id="imageDownloadToggle" checked>
+          <span class="slider round"></span>
+        </label>
+        <span id="toggleStatus">켜짐</span>
+      </label>
+    </div>
+    
+    <button id="collectData">현재 페이지 데이터 수집</button>
+    <div id="productCount">저장된 제품: 확인 중...</div>
+    
+    <div id="productList">
+      <!-- 여기에 저장된 제품 목록이 표시됩니다 -->
+    </div>
+    
+    <button id="exportExcel">수집된 데이터 내보내기</button>
+    <button id="clearData">저장된 데이터 삭제</button>
   </div>
   
-  <button id="exportExcel">수집된 데이터 내보내기</button>
-  <button id="clearData">저장된 데이터 삭제</button>
+  <div id="OutOfStock" class="tabcontent">
+    <div class="instructions">
+      <strong>품절 상품 수집:</strong><br>
+      1. 루이비통 카테고리 페이지 URL을 입력하세요<br>
+      2. 아래 버튼을 클릭하면 해당 카테고리의 품절 상품을 수집합니다.
+    </div>
+    
+    <div class="settings-container">
+      <label for="categoryUrl">카테고리 URL:</label>
+      <input type="text" id="categoryUrl" placeholder="https://kr.louisvuitton.com/kor-kr/women/bags/_/N-t83fv4">
+      
+      <label for="maxPages">최대 페이지 수:</label>
+      <input type="number" id="maxPages" value="5" min="1" max="50">
+      
+      <label for="delayMin">요청 지연 최소 시간(초):</label>
+      <input type="number" id="delayMin" value="2" min="1" max="10">
+      
+      <label for="delayMax">요청 지연 최대 시간(초):</label>
+      <input type="number" id="delayMax" value="5" min="1" max="15">
+    </div>
+    
+    <button id="collectOutOfStock">품절 상품 수집 시작</button>
+    <button id="stopCollection" style="background-color: #FF9800;">수집 중지</button>
+    
+    <div id="outOfStockCount">품절 상품: 0개</div>
+    <div id="progressStatus" class="status-indicator"></div>
+    
+    <div id="outOfStockList">
+      <!-- 여기에 품절 상품 목록이 표시됩니다 -->
+    </div>
+    
+    <button id="exportOutOfStock">품절 상품 내보내기</button>
+    <button id="clearOutOfStock" style="background-color: #f44336;">품절 상품 데이터 삭제</button>
+  </div>
+  
+  <div id="URLChecker" class="tabcontent">
+    <div class="instructions">
+      <strong>저장된 URL 기반 품절 확인:</strong><br>
+      이 기능은 이전에 저장된 모든 URL을 기반으로 품절 상태를 확인합니다.
+    </div>
+    
+    <div class="settings-container">
+      <label for="urlSourceSelect">URL 소스:</label>
+      <select id="urlSourceSelect">
+        <option value="all">모든 소스</option>
+        <option value="products">제품 정보</option>
+        <option value="outOfStock">품절 상품</option>
+        <option value="history">상태 기록</option>
+      </select>
+      
+      <label for="urlCheckerDelayMin">요청 지연 최소 시간(초):</label>
+      <input type="number" id="urlCheckerDelayMin" value="3" min="1" max="10">
+      
+      <label for="urlCheckerDelayMax">요청 지연 최대 시간(초):</label>
+      <input type="number" id="urlCheckerDelayMax" value="7" min="1" max="15">
+      
+      <label for="maxRetries">오류 시 재시도 횟수:</label>
+      <input type="number" id="maxRetries" value="2" min="0" max="5">
+    </div>
+    
+    <button id="startUrlChecker">URL 확인 시작</button>
+    <button id="stopUrlChecker" style="background-color: #FF9800;">확인 중지</button>
+    
+    <div class="progress-container" style="margin-top: 15px;">
+      <div class="progress-info" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+        <span id="urlProgressText">0 / 0 URL 확인됨 (0%)</span>
+        <span id="urlStatusStats">발견된 품절 상품: 0</span>
+      </div>
+      <div class="progress-bar-container" style="background-color: #f1f1f1; border-radius: 4px; height: 20px; overflow: hidden;">
+        <div id="urlProgressBar" style="background-color: #4CAF50; height: 100%; width: 0%;"></div>
+      </div>
+    </div>
+    
+    <div id="urlCheckerResults" class="url-checker-results" style="margin-top: 15px; max-height: 300px; overflow-y: auto; border: 1px solid #ddd; border-radius: 4px; padding: 10px;">
+      <div class="message">URL 확인을 시작하려면 위 버튼을 클릭하세요.</div>
+    </div>
+    
+    <button id="exportUrlResults">결과 내보내기</button>
+  </div>
+  
+  <div id="Removed" class="tabcontent">
+    <div class="instructions">
+      <strong>삭제된 상품 추적:</strong><br>
+      이 기능은 이전에 감지된 상품 중 웹사이트에서 완전히 삭제된 상품을 추적합니다.
+    </div>
+    
+    <div class="settings-container">
+      <label class="switch-container">
+        <span>자동 추적 활성화:</span>
+        <label class="switch">
+          <input type="checkbox" id="autoTrackingToggle" checked>
+          <span class="slider round"></span>
+        </label>
+        <span id="trackingStatus">켜짐</span>
+      </label>
+      
+      <label for="trackingInterval">추적 주기 (시간):</label>
+      <input type="number" id="trackingInterval" value="24" min="1" max="168">
+      
+      <label for="periodDays">표시 기간 (일):</label>
+      <input type="number" id="periodDays" value="30" min="1" max="365">
+    </div>
+    
+    <button id="checkRemovedProducts">지금 삭제된 상품 확인</button>
+    <div id="removedCount">삭제된 상품: 0개</div>
+    
+    <div id="removedList" class="product-list">
+      <!-- 여기에 삭제된 상품 목록이 표시됩니다 -->
+    </div>
+    
+    <button id="exportRemoved">삭제된 상품 내보내기</button>
+    <button id="viewStatusHistory">상태 변경 기록 보기</button>
+  </div>
   
   <script src="popup.js"></script>
 </body>
