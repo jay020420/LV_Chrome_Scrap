@@ -238,6 +238,7 @@
     <button class="tablinks" data-tab="OutOfStock">품절 상품</button>
     <button class="tablinks" data-tab="URLChecker">URL 확인기</button>
     <button class="tablinks" data-tab="Removed">삭제된 상품</button>
+    <button class="tablinks" data-tab="GitHubSync">GitHub 동기화</button>
   </div>
   
   <div id="Product" class="tabcontent" style="display: block;">
@@ -378,11 +379,16 @@
     <div id="removedList" class="product-list">
       <!-- 여기에 삭제된 상품 목록이 표시됩니다 -->
     </div>
-    
     <button id="exportRemoved">삭제된 상품 내보내기</button>
     <button id="viewStatusHistory">상태 변경 기록 보기</button>
   </div>
-  
+
+  <div id="GitHubSync" class="tabcontent">
+    <!-- GitHub 동기화 탭 콘텐츠는 자동으로 생성됩니다 -->
+  </div>
+
+  <script src="github-storage.js"></script>
+  <script src="github-debug.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
