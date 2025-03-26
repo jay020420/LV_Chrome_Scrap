@@ -183,7 +183,7 @@
         productData.descriptionImage = `${data.productName}/${data.material || '기타'}/${data.model}/${descFileName}`;
       }
       
-      // 제품 이미지 정보 추가
+      // 제품 이미지 정보 추가 ..
       if (data.imageUrls && data.imageUrls.length > 0) {
         productData.images = data.imageUrls.map((url, idx) => {
           const urlParts = url.split('.');
