@@ -201,7 +201,7 @@
         const existingIndex = products.findIndex(p => p.model === productData.model);
         
         if (existingIndex >= 0) {
-          // 기존 데이터 업데이트
+          // 기존 데이터 업데이트!
           products[existingIndex] = productData;
           console.log('기존 제품 데이터 업데이트:', productData);
         } else {
